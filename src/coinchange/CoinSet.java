@@ -19,31 +19,26 @@ public class CoinSet {
 	public void addCoin(int coinValue) {
 		addCoins(coinValue, 1);
 	}
-	
-	public void addCoins(int coinValue, int count) {
+
+	private void checkValueAndCount(int coinValue, int count) {
 		if (coinValue <= 0)
 			throw new IllegalArgumentException("Coin value not positive");
 		if (count < 0)
 			throw new IllegalArgumentException("Coin count negative");
-		int currentCoinCount = 0;
-		if (amounts.containsKey(coinValue))
-			currentCoinCount = amounts.get(coinValue);
-		amounts.put(coinValue, currentCoinCount + count);
+	}
+	
+	public void addCoins(int coinValue, int count) {
+		checkValueAndCount(coinValue, count);
+		amounts.put(coinValue, getCount(coinValue) + count);
 		totalCoins += count;
 		totalMoney += count * coinValue;
 	}
 	
 	private void removeCoins(int coinValue, int count) {
-		if (coinValue <= 0)
-			throw new IllegalArgumentException("Coin value not positive");
-		if (count < 0)
-			throw new IllegalArgumentException("Coin count negative");
-		int currentCoinCount = 0;
-		if (amounts.containsKey(coinValue))
-			currentCoinCount = amounts.get(coinValue);
-		if (currentCoinCount < count)
+		checkValueAndCount(coinValue, count);
+		if (getCount(coinValue) < count)
 			throw new IllegalArgumentException("Too much coins to remove");
-		amounts.put(coinValue, currentCoinCount - count);
+		amounts.put(coinValue, getCount(coinValue) - count);
 		totalCoins -= count;
 		totalMoney -= count * coinValue;
 	}
