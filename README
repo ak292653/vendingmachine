@@ -20,7 +20,7 @@ pieniędzy, rzucając odpowiednie wyjątki w różnych sytuacjach.
 Wydaje mi się, że zwykle reszta wydawana jest natychmiast po wybraniu jednego
 produktu, ponadto przyjąłem, że jeśli automat nie jest w stanie wydać reszty,
 to zwraca pieniądze bez wydania produktu. Nie zauważyłem jednak w takich
-automatach opcji "oddaj pieniądze bo tak". :)
+automatach opcji "oddaj pieniądze bo się rozmyśliłem". :)
 
 Reszta może być według różnych strategii (interfejs ChangeMakingStrategy). 
 Jeśli automat obsługuje niewielkie kwoty i nie ma wielu monet, obliczana może
