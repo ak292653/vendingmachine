@@ -52,14 +52,15 @@ tam gdzie najmniej mógłbym podejrzewać siebie o zrobienie błędu.
 O ile strategię zachłanną dało się jeszcze robić iteracyjnie, to uważam że
 najbardziej skomplikowanej części, czyli optymalnego wydawania, nie jest łatwo
 zrobić przy użyciu TDD -- złośliwe testy faktycznie można napisać na początku,
-ale iteracyjne pisanie prostego dynamika trochę mija się  z celem (no bo jak to
+ale iteracyjne pisanie prostego dynamika trochę mija się z celem (no bo jak to
 niby zrobić?). Ponadto, wydaje mi się, że przy pisaniu mniej oczywistego kawałka
 kodu jestem bardziej skupiony i od razu staram się zrobić to bezbłędnie.
 
 TDD pomogło mi więc raczej w ogólnym decydowaniu, jakie mają być metody klas
-pomocniczych i jakie operacje chcę móc wykonywać, nie zaś w implementacji
-skomplikowanej logiki -- być może w związku z naturą problemu, wiadomo że
-punktowanie gry w kręgle też jest skomplikowane, a z TDD działa świetnie.
+pomocniczych i jakie operacje chcę móc wykonywać, a także w elementarnych
+operacjach, nie zaś w implementacji skomplikowanej logiki -- być może w związku
+z naturą problemu; wiadomo że punktowanie gry w kręgle też jest skomplikowane,
+a z TDD działa świetnie.
 
 pozdrawiam,
 AK
