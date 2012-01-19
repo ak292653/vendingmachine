@@ -1,0 +1,66 @@
+Co robi program?
+---------------------------------------------------------------------------
+
+Wyobraźmy sobie, ze piszemy oprogramowanie do automatu sprzedającego napoje.
+Oprogramowanie takie mogłoby się składać z modułu rozpoznającego monety,
+modułu który steruje ruchem monet, tego który odpowiada za wypuszczenia
+towarów ze slotów, zarzadzania wyswietlaczem i tego, który liczy pieniądze.
+
+Liczenie pieniędzy odbywa się w każdej maszynie, niezależnie czy jest
+to automat do kawy, do slodyczy (jak na wydziale na górze kolo laboratorium),
+czy automat do biletów, który może przyjmować także papierowe banknoty.
+
+Napisałem przy pomocy TDD właśnie część zliczającą pieniądze i obliczającą
+jak wydawać resztę. Klasa CoinManager pozwala na podstawowe operacje --
+dodanie monet do banku, wrzucenie monety przez kupującego, stwierdzenie,
+czy można dokonać zakupu, obliczanie jak powinna wyglądać reszta, przeglądanie
+aktualnego stanu wrzuconych monet. A więc obsługuje własciwie całą logikę
+pieniędzy, rzucając odpowiednie wyjątki w różnych sytuacjach.
+
+Wydaje mi się, że zwykle reszta wydawana jest natychmiast po wybraniu jednego
+produktu, ponadto przyjąłem, że jeśli automat nie jest w stanie wydać reszty,
+to zwraca pieniądze bez wydania produktu. Nie zauważyłem jednak w takich
+automatach opcji "oddaj pieniądze bo tak". :)
+
+Reszta może być według różnych strategii (interfejs ChangeMakingStrategy). 
+Jeśli automat obsługuje niewielkie kwoty i nie ma wielu monet, obliczana może
+być w sposób optymalny (dynamikiem) (jak mówi że się nie da, to naprawdę się nie da; 
+zawsze wydaje mozliwie najmniejsza liczba monet).
+
+Jeśli jednak założymy, że bank monet jest naprawdę duży w maszynie, i maszyna
+dysponuje dużym zakresem kwot, np. od 2gr do 1000zł (sprzedaje cukierki elfiki
+na sztuki lub ipody :), to mozemy uzyc zachlannej strategii wydawania monet,
+tym bardziej że większość krajów ma taki zestaw monet, ktore gwarantuje, że
+reszta wypłacona w sposób zachłanny jest zawsze optymalna (wikipedia).
+Zaimplementowałem więc dwie strategie - OptimalChangeMakingStrategy 
+i GreedyChangeMakingStrategy.
+
+Do tego klasa pomocnicza operująca zbiorem monet i wykonujaca operacje na nim.
+
+Testy i TDD
+-----------------------------------------------------------------------------
+Logika ta nie jest skomplikowana, ale wygląda na to że nadaje się do pisania
+ją przy użyciu TDD. Testy to klasy *Should. Aby ułatwić sobie pracę wykorzystałem
+jUnitowe testowanie wyjątków, abstrakcyjną klase testową (niektóre testy muszą
+przechodzić dla każdej możliwej strategii wydawania), konwersję zbiorów monet
+do tablic, aby móc robić assertArrayEquals. Jeden test sprawdza także szybkość
+zachłannego wydawania reszty.
+
+Moje wrażanie z TDD -- na pewno lepiej uniknąłem błędów najpierw pisząc testy,
+przed napisaniem metod. Uniknąłem ich w opracjach bardzo prostych (CoinSet),
+tam gdzie najmniej mógłbym podejrzewać siebie o zrobienie błędu.
+O ile strategię zachłanną dało się jeszcze robić iteracyjnie, to uważam że
+najbardziej skomplikowanej części, czyli optymalnego wydawania, nie jest łatwo
+zrobić przy użyciu TDD -- złośliwe testy faktycznie można napisać na początku,
+ale iteracyjne pisanie prostego dynamika trochę mija się  z celem (no bo jak to
+niby zrobić?). Ponadto, wydaje mi się, że przy pisaniu mniej oczywistego kawałka
+kodu jestem bardziej skupiony i od razu staram się zrobić to bezbłędnie.
+
+TDD pomogło mi więc raczej w ogólnym decydowaniu, jakie mają być metody klas
+pomocniczych i jakie operacje chcę móc wykonywać, nie zaś w implementacji
+skomplikowanej logiki -- być może w związku z naturą problemu, wiadomo że
+punktowanie gry w kręgle też jest skomplikowane, a z TDD działa świetnie.
+
+pozdrawiam,
+AK
+
