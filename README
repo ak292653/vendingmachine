@@ -60,7 +60,8 @@ TDD pomogło mi więc raczej w ogólnym decydowaniu, jakie mają być metody kla
 pomocniczych i jakie operacje chcę móc wykonywać, a także w elementarnych
 operacjach, nie zaś w implementacji skomplikowanej logiki -- być może w związku
 z naturą problemu; wiadomo że punktowanie gry w kręgle też jest skomplikowane,
-a z TDD działa świetnie.
+a z TDD działa świetnie. Wygodne było także szybkie sprawdzanie poprawności
+małych refaktoryzacji.
 
 pozdrawiam,
 AK
