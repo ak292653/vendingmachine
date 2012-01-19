@@ -69,11 +69,20 @@ public class CoinManagerShould {
 	}
 	
 	@Test
-	public void displayCorrectBalanceAfterInsertingEachOf2Coins() throws Exception {
+	public void giveCorrectBalanceAfterInsertingEachOf2Coins() throws Exception {
 		CoinManager cm = new CoinManager(new GreedyChangeMakingStrategy());
 		cm.addCoin(4);
 		assertEquals(4, cm.getCurrentBalance());
 		cm.addCoin(7);
 		assertEquals(11, cm.getCurrentBalance());
+	}
+	
+	@Test
+	public void haveZeroBalanceAfterSuccessfulTransaction() throws Exception {
+		CoinManager cm = new CoinManager(new GreedyChangeMakingStrategy());
+		cm.addSpareCoins(new int[]{1, 1, 1, 1});
+		cm.addCoin(4);
+		cm.purchase(2);
+		assertEquals(0, cm.getCurrentBalance());
 	}
 }

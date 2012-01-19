@@ -7,9 +7,13 @@ import java.util.TreeMap;
 public class CoinSet {
 	
 	private TreeMap<Integer, Integer> amounts;
+	private int totalCoins;
+	private int totalMoney;
 	
 	public CoinSet() {
 		amounts = new TreeMap<Integer, Integer>();
+		totalCoins = 0;
+		totalMoney = 0;
 	}
 	
 	public void addCoin(int coinValue) {
@@ -18,13 +22,30 @@ public class CoinSet {
 	
 	public void addCoins(int coinValue, int count) {
 		if (coinValue <= 0)
-			throw new IllegalArgumentException("Coin value negative");
+			throw new IllegalArgumentException("Coin value not positive");
 		if (count < 0)
 			throw new IllegalArgumentException("Coin count negative");
 		int currentCoinCount = 0;
 		if (amounts.containsKey(coinValue))
 			currentCoinCount = amounts.get(coinValue);
 		amounts.put(coinValue, currentCoinCount + count);
+		totalCoins += count;
+		totalMoney += count * coinValue;
+	}
+	
+	private void removeCoins(int coinValue, int count) {
+		if (coinValue <= 0)
+			throw new IllegalArgumentException("Coin value not positive");
+		if (count < 0)
+			throw new IllegalArgumentException("Coin count negative");
+		int currentCoinCount = 0;
+		if (amounts.containsKey(coinValue))
+			currentCoinCount = amounts.get(coinValue);
+		if (currentCoinCount < count)
+			throw new IllegalArgumentException("Too much coins to remove");
+		amounts.put(coinValue, currentCoinCount - count);
+		totalCoins -= count;
+		totalMoney -= count * coinValue;
 	}
 	
 	public void addCoins(int[] coins) {
@@ -39,19 +60,11 @@ public class CoinSet {
 	}
 	
 	public int getTotalCoins() {
-		int sum = 0;
-		for (Map.Entry<Integer, Integer> e : amounts.entrySet()) {
-			sum += e.getValue();
-		}
-		return sum;
+		return totalCoins;
 	}
 	
 	public int getTotalMoney() {
-		int sum = 0;
-		for (Map.Entry<Integer, Integer> e : amounts.entrySet()) {
-			sum += e.getKey() * e.getValue();
-		}
-		return sum;
+		return totalMoney;
 	}
 	
 	public Set<Map.Entry<Integer, Integer> > reversedCoinList() {
@@ -71,9 +84,7 @@ public class CoinSet {
 	public void subtract(CoinSet change) {
 		for (Map.Entry<Integer, Integer> e : change.amounts.entrySet()) {
 			if (e.getValue() > 0) {
-				if (!amounts.containsKey(e.getKey()) || amounts.get(e.getKey()) < e.getValue())
-					throw new IllegalArgumentException("Cannot subtract set.");
-				amounts.put(e.getKey(), amounts.get(e.getKey()) - e.getValue());
+				removeCoins(e.getKey(), e.getValue());
 			}
 		}
 	}
@@ -84,7 +95,7 @@ public class CoinSet {
 			if (amounts.get(coin) == 0)
 				amounts.remove(coin);
 			else {
-				amounts.put(coin, amounts.get(coin) - 1);
+				removeCoins(coin, 1);
 				return coin;
 			}
 		}
